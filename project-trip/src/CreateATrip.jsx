@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from "./context";
 import { createTrip } from './api'
 import { getTrips } from './api';
+import './App.css'
 
 
 
@@ -49,7 +50,9 @@ const CreateATrip = ({ setUpcomingTrips }) => {
  
 
     return (
-        <div>
+        <div className='page-container'>
+        <div className='create-trip-container'>
+            <div>
             <Link to="/dashboard">Back to Dashboard</Link>
             <br />
             <input
@@ -103,6 +106,8 @@ const CreateATrip = ({ setUpcomingTrips }) => {
             />
 
             <button onClick={submitTrip}>Create Trip</button>
+        </div>
+        </div>
         </div>
     );
 };

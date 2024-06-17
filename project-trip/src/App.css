@@ -2,13 +2,14 @@ html {
     height: 100%;
   }
   body {
-    background-image: url('assets/black.jpg');
+    background-image: url('assets/camera.jpg');
     height: 100%;
     background-repeat: no-repeat ;
     background-size: cover;
     margin: 0;
-    /* background-position: center; */
-
+    background-attachment: fixed;
+    overflow-y: auto;
+    background-position: center;
 
   }
   
@@ -47,6 +48,181 @@ html {
     text-align: center;
     font-family:'Times New Roman', Times, serif;
   }
+/* dashboard css */
+
+.dashboard-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f3924257;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.dashboard-header {
+  margin-bottom: 20px;
+}
+
+.dashboard-link {
+  display: block;
+  margin: 10px 0;
+  padding: 10px 20px;
+  background-color: #c76911;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.dashboard-link:hover {
+  background-color: #9a6c58;
+}
+
+.logout-button {
+  margin-right: 20px;
+  padding: 10px 20px;
+  color: white;
+  background: rgb(203, 112, 16);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #5e0e6e;
+}
+
+  /* this is my create a user */
+
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+  .create-trip-container {
+    align-items: center;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 50px;
+    border: 1px solid #4d4848;
+    border-radius: 10px;
+    background-color: #f3924257;
+}
+
+.create-trip-container input,
+.create-trip-container button,
+.create-trip-container a {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.create-trip-container button {
+    background-color: #5e0e6e;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.create-trip-container button:hover {
+    background-color: #0a0b0b;
+}
+
+.create-trip-container input[type='date'] {
+    width: calc(100% - 16px); /* Adjust for date input padding */
+}
+
+.create-trip-container a {
+    display: block;
+    text-align: center;
+    color: #c84ac2;
+    text-decoration: none;
+}
+
+/* my upcoming trips */
+
+
+.upcoming-trips-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.back-to-dashboard {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #470553;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.back-to-dashboard:hover {
+  background-color: #450468;
+}
+
+.trip-card {
+  background-color: #393333;
+  border: 1px solid #4d4848;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  color: white;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.trip-card button {
+  align-self: flex-end;
+  padding: 10px 20px;
+  background-color: #5e0e6e;
+  color: white;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.trip-card button:hover {
+  background-color: #450468;
+}
+
+.trip-card button.delete-button {
+  background-color: #e00b0b;
+}
+
+.trip-card button.delete-button:hover {
+  background-color: #b00909;
+}
+.trip-card h3 {
+  margin: 0 0 10px;
+}
+
+.trip-card p {
+  margin: 5px 0;
+}
+
+.trip-card a {
+  align-self: flex-end;
+  padding: 10px 20px;
+  background-color: #5e0e6e;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.trip-card a:hover {
+  background-color: #0a0b0b;
+}
+
   
   @media screen and (min-width:768px){
     .menu-item {

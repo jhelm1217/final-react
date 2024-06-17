@@ -23,7 +23,8 @@ import Dashboard from './Dashboard'
 import CompletedTrip from './CompletedTrips'
 import UpcomingTrips from './UpcomingTrips'
 import CreateATrip from './CreateATrip'
-import TripDetails from './TripDetails'
+// import TripDetails from './TripDetails'
+// import UpdateTrip from './UpdateTrip'
 
 
 function Layout() {
@@ -80,13 +81,11 @@ const router = createBrowserRouter([
         path: '/get-trips/',
         element: <UpcomingTrips />
       },
-      {
-        path: '/get-trips/:id',
-        element: <TripDetails />
-      }
       // {
-      //   path: ''
+      //   path: 'update-trip/`${tripId}',
+      //   element: < UpdateTrip />
       // },
+     
 
     ]
   }

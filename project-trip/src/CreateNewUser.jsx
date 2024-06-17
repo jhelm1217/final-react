@@ -17,16 +17,16 @@ const CreateNewUser = () => {
     createUser({ username, password, firstName, lastName })
     .then (response => {
       console.log('errrror: ', response)
-  })
-     
+      navigate('/login')
+    })
+    
     .catch(error => {
       console.log('Errrorrr creating: ', error)
     })
   }
-
+  
   const handleClick=() => {
     submit();
-    navigate('/login')
 
   }
 
@@ -37,6 +37,7 @@ const CreateNewUser = () => {
       <div>
         <div>Username:</div>
         <input
+          className="text-muted"
           onChange={(e) => setUsername(e.target.value)}
           value={username}
         />
@@ -45,6 +46,7 @@ const CreateNewUser = () => {
       <div>
         <div>Password:</div>
         <input
+          className="text-muted"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
         />
@@ -53,6 +55,7 @@ const CreateNewUser = () => {
       <div>
         <div>First Name:</div>
         <input
+          className="text-muted"
           onChange={(e) => setFirstName(e.target.value)}
           value={firstName}
         />
@@ -61,6 +64,7 @@ const CreateNewUser = () => {
       <div>
         <div>Last Name:</div>
         <input
+          className="text-muted"
           onChange={(e) => setLastName(e.target.value)}
           value={lastName}
         />
@@ -69,7 +73,6 @@ const CreateNewUser = () => {
       <div style={{ marginTop: 20 }}>
       <button onClick={handleClick} style={{ color: 'white', backgroundColor: 'teal', borderRadius: '10px'}}>Submit</button>
 
-        {/* <button onClick={() => submit()} style={{ color: 'white', backgroundColor: 'teal', borderRadius: '10px'}}>Submit</button> */}
       </div>
       
     </div>

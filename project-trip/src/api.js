@@ -3,8 +3,25 @@ import axios from 'axios'
 const baseUrl = 'http://127.0.0.1:8000/'
 
 
+export const addFriend = ({ auth, tripId }) => {
+    return axios({
+        method: 'post',
+        url: `${baseUrl}/add-friend/${tripId}/`,
+        headers: {
+            Authorization: `Bearer ${auth.accessToken}`,
+        },
+    })
+    .then(response => {
+        console.log('GET TRIPS RESPONSE: ', response);
+        return response.data
+    })
+    .catch(error => console.log('ERROR: ', error));
+};
+
+
+
 export const createUser = ({ username, password, firstName, lastName }) => {
-    axios ({
+    return axios ({
         method: 'post', 
         url: `${baseUrl}/create-user/`,
         data: {
@@ -95,7 +112,7 @@ export const getTrips = ({ auth  }) => {
         },
     })
     .then(response => {
-        console.log('GET MESSAGES RESPONSE: ', response);
+        console.log('GET TRIPS RESPONSE: ', response);
         return response.data
     })
     .catch(error => console.log('ERROR: ', error));
@@ -120,6 +137,7 @@ export const deleteMessage = ({ auth, id }) => {
     .catch(error => console.log('ERROR, CANT DELETE MSG: ', error))
 }
 
+
 export const deleteTrip = ({ auth, id }) => {
     return axios ({
         method: 'delete',
@@ -127,14 +145,11 @@ export const deleteTrip = ({ auth, id }) => {
         headers: {
             Authorization: `Bearer ${auth.accessToken}`,
         },
-        data: {
-            id
-        }
     })
     .then(response => {
         console.log('delete trip response: ', response);
     })
-    .catch.apply(error => console.log('ERRORRRR: ', error))
+    .catch(error => console.log('ERRORRRR: ', error))
 }
 
 
@@ -230,12 +245,12 @@ export const getToken = ({ auth, username, password }) => {
 //     .catch(error => console.log('ERROR: ', error));
 // };
 
-export const updateTrip = ({ auth, tripId, tripData }) => {
+export const updateTrip = ({ theNewTokenName, id, tripData }) => {
     return axios ({
         method: 'put', 
-        url: `${baseUrl}/update-trip/${tripId}`,
+        url: `${baseUrl}/update-trip/${id}`,
         headers: {
-            Authorization: `Bearer ${auth.accessToken}`,
+            Authorization: `Bearer ${theNewTokenName}`,
         },
         data: tripData,
     })

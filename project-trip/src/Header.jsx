@@ -1,4 +1,5 @@
 import { Link, useLocation  } from "react-router-dom"
+import './App.css'
 
 function Header() {
 
@@ -8,19 +9,20 @@ function Header() {
     location.pathname === '/get-completed-trips/' ||
     location.pathname === '/get-trips/' ||
     location.pathname === '/create-trip/' ||
-    location.pathname === '/get-trips/${id}'
+    location.pathname === '/update-trip/`${tripId}`/'
+
   ) {
-    return null; // Don't render the header on the message-list page
+    return null; // Don't render the header on these pages
   }
 
   return (
-    <div style={{ margin: 10, display: 'flex', justifyContent: 'flex-end', fontSize: '20px' }}>
-      <Link style={{ marginRight: 20, color: 'black' }} to='/'>Home</Link>
-      <Link style={{ marginRight: 20, color: 'black' }} to='create-user/'>New User?</Link>
-      <Link style={{ marginRight: 20, color: 'black' }} to='login/'>Login</Link>
+    <nav style={{ margin: 10, display: 'flex', justifyContent: 'center', fontSize: '20px' }}>
+      <Link style={{ marginRight: 20, color: 'brown' }} to='/'>Home</Link>
+      <Link style={{ marginRight: 20, color: 'brown' }} to='create-user/'>New User?</Link>
+      <Link style={{ marginRight: 20, color: 'brown' }} to='login/'>Login</Link>
 
 
-    </div>
+    </nav>
   )
 }
 
