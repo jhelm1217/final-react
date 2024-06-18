@@ -25,13 +25,13 @@ const CreateNewUser = () => {
     })
   }
   
-  const handleClick=() => {
-    submit();
+  // const handleClick=() => {
+  //   submit();
 
-  }
+  // }
 
   return (
-    <div className="p-5 container" style={{ textAlign: 'center', color: 'white'}}>
+    <div className="p-5 container" style={{ textAlign: 'center', color: 'darkslategrey', backgroundColor: 'bisque', marginTop: '30px', height: '45vh', width: '500px', borderRadius: '20px'}}>
 
       <h1>Create New User</h1>
       <div>
@@ -71,7 +71,9 @@ const CreateNewUser = () => {
       </div>
 
       <div style={{ marginTop: 20 }}>
-      <button onClick={handleClick} style={{ color: 'white', backgroundColor: 'teal', borderRadius: '10px'}}>Submit</button>
+      <button onClick={submit} style={{ color: 'white', backgroundColor: 'brown', borderRadius: '10px'}}>Submit</button>
+
+      {/* <button onClick={handleClick} style={{ color: 'white', backgroundColor: 'brown', borderRadius: '10px'}}>Submit</button> */}
 
       </div>
       

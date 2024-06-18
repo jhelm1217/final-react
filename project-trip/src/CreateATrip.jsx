@@ -50,10 +50,24 @@ const CreateATrip = ({ setUpcomingTrips }) => {
  
 
     return (
-        <div className='page-container'>
+        <div className='create-trip-page-container'>
+            <Link to="/dashboard"
+                style={{
+                padding: '10px 20px',
+                marginBottom: '20px',
+                color: 'white',
+                backgroundColor: 'darkslategrey',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                transition: 'background-color 0.3s ease'
+                }}
+            >
+            Back to Dashboard</Link>
+            <hr />
         <div className='create-trip-container'>
             <div>
-            <Link to="/dashboard">Back to Dashboard</Link>
+                <h2 style={{ color: 'beige', textAlign: 'center'}}>Create A Trip</h2>
             <br />
             <input
                 type='text'

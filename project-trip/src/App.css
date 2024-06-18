@@ -15,7 +15,8 @@ html {
   
 /* Navbar.css */
 .nav {
-    background-color: #1b181c;
+    /* background-color:#c7763357; */
+    background-color: darkslategrey;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -50,11 +51,17 @@ html {
   }
 /* dashboard css */
 
-.dashboard-container {
-  max-width: 800px;
+.dashboard-trips-container {
+  max-width: 600px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f3924257;
+}
+
+.dashboard-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: darkslategrey;
   color: white;
   border-radius: 10px;
   text-align: center;
@@ -68,8 +75,8 @@ html {
   display: block;
   margin: 10px 0;
   padding: 10px 20px;
-  background-color: #c76911;
-  color: white;
+  background-color: beige;
+  color: darkslategrey;
   text-decoration: none;
   border-radius: 5px;
   transition: background-color 0.3s ease;
@@ -80,10 +87,10 @@ html {
 }
 
 .logout-button {
-  margin-right: 20px;
+  /* margin-right: 20px; */
   padding: 10px 20px;
-  color: white;
-  background: rgb(203, 112, 16);
+  color: beige;
+  background-color: darkslategrey;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -91,16 +98,15 @@ html {
 }
 
 .logout-button:hover {
-  background-color: #5e0e6e;
+  background-color: beige;
 }
 
   /* this is my create a user */
 
-.page-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+.create-trip-page-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
 }
   .create-trip-container {
     align-items: center;
@@ -109,7 +115,7 @@ html {
     padding: 50px;
     border: 1px solid #4d4848;
     border-radius: 10px;
-    background-color: #f3924257;
+    background-color: darkslategrey;
 }
 
 .create-trip-container input,
@@ -122,8 +128,8 @@ html {
 }
 
 .create-trip-container button {
-    background-color: #5e0e6e;
-    color: white;
+    background-color: burlywood;
+    color: beige;
     border: none;
     border-radius: 3px;
     cursor: pointer;
@@ -140,15 +146,16 @@ html {
 .create-trip-container a {
     display: block;
     text-align: center;
-    color: #c84ac2;
+    /* color: #c84ac2; */
     text-decoration: none;
 }
+
 
 /* my upcoming trips */
 
 
 .upcoming-trips-container {
-  max-width: 1200px;
+  max-width: 600px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -157,32 +164,34 @@ html {
   display: inline-block;
   margin-bottom: 20px;
   padding: 10px 20px;
-  background-color: #470553;
-  color: white;
+  background-color: darkslategrey;
+  color: beige;
   text-decoration: none;
   border-radius: 5px;
 }
 
 .back-to-dashboard:hover {
-  background-color: #450468;
+  background-color: darkslategrey;
 }
 
 .trip-card {
-  background-color: #393333;
+  /* background-color: ; */
+  background-color: darkslategrey;
+
   border: 1px solid #4d4848;
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
-  color: white;
+  color: beige;
   text-decoration: none;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 .trip-card button {
-  align-self: flex-end;
+  align-self: center;
   padding: 10px 20px;
-  background-color: #5e0e6e;
+  background-color: burlywood;
   color: white;
   text-decoration: none;
   border: none;
@@ -192,7 +201,7 @@ html {
 }
 
 .trip-card button:hover {
-  background-color: #450468;
+  background-color: darkslategrey;
 }
 
 .trip-card button.delete-button {

@@ -9,17 +9,43 @@ const UpcomingTrips = () => {
     const [upcomingTrips, setUpcomingTrips] = useState([]);
     const { auth } = useContext(AuthContext)
     const [friendUsername, setFriendUsername] = useState('');
+    const [totalCount, setTotalCount] = useState({ 'Upcoming' : 0, Completed: 0 });
 
     useEffect(() => {
         getTrips ({ auth }) 
         .then(trips => {
             setUpcomingTrips(trips);
+            const totalCount = {
+                Completed: trips.filter(trip => trip.completed).length,
+                'Upcoming': trips.filter(trip => !trip.completed).length
+            };
+            setTotalCount(totalCount);
         })
         .catch(error => {
             console.error('Error fetching upcoming trips:', error);
         });
     }, [auth]);
 
+   
+    const handleCheckboxChange = (tripId) => {
+        const updatedTrips = upcomingTrips.map(trip => {
+            if (trip.id === tripId) {
+                const updatedTrip = { ...trip, completed: !trip.completed };
+                // should pdate the trip status in the backend
+                updateTrip({ auth, id: tripId, data: { completed: updatedTrip.completed } })
+                    .then(response => {
+                        console.log('Trip updated:', response.data);
+                    })
+                    .catch(error => {
+                        console.error('Error updating trip:', error);
+                    });
+                return updatedTrip;
+            }
+            return trip;
+        });
+        setUpcomingTrips(updatedTrips);
+    }
+    
     const handleAddFriend = (tripId) => {
         //find the trip
         const index = upcomingTrips.findIndex(trip => trip.id === tripId);
@@ -33,7 +59,7 @@ const UpcomingTrips = () => {
         //add my friends username to the trip 
         updatedTrip.friends.push(friendUsername);
 
-        //update the specific trip in the array
+        //update that trip in the list
         const updatedTrips = [...upcomingTrips];
         updatedTrips[index] = updatedTrip;
         setUpcomingTrips(updatedTrips);
@@ -70,7 +96,8 @@ const UpcomingTrips = () => {
         updateTrip ({ auth, id: tripId, data: updatedTripData })
 
         .then(response => {
-            setUpcomingTrips(prevTrips => prevTrips.map(trip => tripId === tripId ? response.data : trip));
+            setUpcomingTrips(prevTrips => prevTrips.map(trip => trip.id === tripId ? response.data : trip));
+            //  if the trip id equals the trip id, it will allow us to update the details 
         })
         .catch(error => {
             console.error('Error updating trip:', error);
@@ -81,13 +108,22 @@ const UpcomingTrips = () => {
     return (
         <div className="upcoming-trips-container">
             <Link to="/dashboard" className="back-to-dashboard">Back to Dashboard</Link>
-            <h2>Upcoming Trips</h2>
+            <hr />
+            <h2 style={{ color: 'beige', textAlign: 'center'}}>Upcoming Trips</h2>
             <div className="trip-list">
                 {upcomingTrips.map(tripData => (
                     <div key={tripData.id} className="trip-card">
                         <h3>{tripData.name}</h3>
                         <p>Destination: {tripData.destination}</p>
                         <p>Dates: {tripData.start_date} to {tripData.end_date}</p>
+                        <label>
+                            Completed:
+                            <input
+                                type="checkbox"
+                                checked={tripData.completed}
+                                onChange={() => handleCheckboxChange(tripData.id)}
+                            />
+                        </label>
                         <input
                             className='text-muted'
                             type="text"
@@ -107,4 +143,3 @@ const UpcomingTrips = () => {
 
 export default UpcomingTrips
 
-    {/* <Link to='/get-trips-details/${params.id}/'>View Details</Link> */}

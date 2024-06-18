@@ -30,7 +30,9 @@ function Login() {
 
 
   return (
-    <div className="p-5 container" style={{ textAlign: 'center', color: 'white'}}>
+    <div className="p-5 container" style={{ textAlign: 'center', color: 'darkslategrey', backgroundColor: 'bisque', marginTop: '30px', height: '35vh', width: '500px',
+      borderRadius: '20px'
+    }}>
 
       <h1>Login</h1>
       <p>Vacay Time! </p>
@@ -54,7 +56,7 @@ function Login() {
       </div>
 
       <div style={{ marginTop: 20 }}>
-        <button onClick={handleClick} style={{ color: 'white', backgroundColor: 'teal', borderRadius: '10px'}}>Log in!</button>
+        <button onClick={handleClick} style={{ color: 'white', backgroundColor: 'brown', borderRadius: '10px'}}>Log in!</button>
    
       </div>
       {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}

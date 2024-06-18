@@ -141,7 +141,7 @@ export const deleteMessage = ({ auth, id }) => {
 export const deleteTrip = ({ auth, id }) => {
     return axios ({
         method: 'delete',
-        url: `${baseUrl}/delete-trip/${id}`,
+        url: `${baseUrl}/delete-trip/${id}/`,
         headers: {
             Authorization: `Bearer ${auth.accessToken}`,
         },

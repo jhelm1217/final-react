@@ -16,14 +16,17 @@ function Header() {
   }
 
   return (
-    <nav style={{ margin: 10, display: 'flex', justifyContent: 'center', fontSize: '20px' }}>
-      <Link style={{ marginRight: 20, color: 'brown' }} to='/'>Home</Link>
-      <Link style={{ marginRight: 20, color: 'brown' }} to='create-user/'>New User?</Link>
-      <Link style={{ marginRight: 20, color: 'brown' }} to='login/'>Login</Link>
+    <div className="nav">
+      <Link style={{ marginRight: 20, color: 'white' }} to='/'>Home</Link>
+      <Link style={{ marginRight: 20, color: 'white' }} to='create-user/'>New User?</Link>
+      <Link style={{ marginRight: 20, color: 'white' }} to='login/'>Login</Link>
 
-
-    </nav>
+    </div>
   )
 }
 
 export default Header
+
+
+
+// nav style={{ margin: 10, display: 'flex', justifyContent: 'center', fontSize: '20px' }}>
