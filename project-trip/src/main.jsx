@@ -39,6 +39,17 @@ function Layout() {
   )
 }
 
+// const Protected = ({component}) => {
+//   const { auth } = useContext(AuthContext)
+//   return auth?.accessToken ? (
+//     <>
+//       {component}
+//     </>
+//   ) : (
+//     <Navigate to="/login" replace={true} />
+//   )
+// }
+
 
 const router = createBrowserRouter([
   {

@@ -12,18 +12,21 @@ const UpcomingTrips = () => {
     const [totalCount, setTotalCount] = useState({ 'Upcoming' : 0, Completed: 0 });
 
     useEffect(() => {
+        if (auth && auth.user && auth.user.username) {
         getTrips ({ auth }) 
         .then(trips => {
-            setUpcomingTrips(trips);
+            const userTrips = trips.filter(trip => trip.createdBy === auth.user.username);
+            setUpcomingTrips(userTrips);
             const totalCount = {
-                Completed: trips.filter(trip => trip.completed).length,
-                'Upcoming': trips.filter(trip => !trip.completed).length
+                Completed: userTrips.filter(trip => trip.completed).length,
+                'Upcoming': userTrips.filter(trip => !trip.completed).length
             };
             setTotalCount(totalCount);
         })
         .catch(error => {
             console.error('Error fetching upcoming trips:', error);
         });
+    }
     }, [auth]);
 
    
@@ -57,14 +60,14 @@ const UpcomingTrips = () => {
         const updatedTrip = { ...upcomingTrips[index] };
 
         //add my friends username to the trip 
-        updatedTrip.friends.push(friendUsername);
+        updatedTrip.friends.push(friendUsername[tripId]);
 
         //update that trip in the list
         const updatedTrips = [...upcomingTrips];
         updatedTrips[index] = updatedTrip;
         setUpcomingTrips(updatedTrips);
 
-        addFriend({ auth, tripId, username: friendUsername})
+        addFriend({ auth, tripId, username: friendUsername[tripId] })
             .then(response => {
                 console.log('friend added to trip: ', response);
             })

@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const baseUrl = 'http://127.0.0.1:8000/'
+// const baseUrl = 'http://127.0.0.1:8000/'
+const baseUrl = import.meta.env.VITE_baseUrl
+console.log('baseUrl')
 
 
 export const addFriend = ({ auth, tripId }) => {
@@ -103,7 +105,8 @@ export const createTrip = ({ theNewTokenName, tripData }) => {
 
 
 export const getTrips = ({ auth  }) => {
-    console.log('here is get trips:', auth);
+    // console.log('here is get trips:', auth);
+   
     return axios({
         method: 'get',
         url: `${baseUrl}/get-trips/`,

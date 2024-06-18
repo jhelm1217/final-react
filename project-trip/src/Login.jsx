@@ -30,7 +30,7 @@ function Login() {
 
 
   return (
-    <div className="p-5 container" style={{ textAlign: 'center', color: 'darkslategrey', backgroundColor: 'bisque', marginTop: '30px', height: '35vh', width: '500px',
+    <div className="p-5 container" style={{ textAlign: 'center', color: 'darkslategrey', backgroundColor: 'burlywood', marginTop: '30px', height: '35vh', width: '500px',
       borderRadius: '20px'
     }}>
 

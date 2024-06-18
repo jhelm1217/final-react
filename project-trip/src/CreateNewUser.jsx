@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-// import { AuthContext } from "./context"
+import { AuthContext } from "./context"
 // import { getToken } from "./api"
 import { useNavigate } from "react-router-dom"
 import { createUser } from './api'
@@ -10,25 +10,15 @@ const CreateNewUser = () => {
   const [password, setPassword] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-
   const navigate = useNavigate()
+
 
   const submit = () => {
     createUser({ username, password, firstName, lastName })
-    .then (response => {
-      console.log('errrror: ', response)
-      navigate('/login')
-    })
-    
-    .catch(error => {
-      console.log('Errrorrr creating: ', error)
-    })
-  }
-  
-  // const handleClick=() => {
-  //   submit();
+    navigate('/login')
 
-  // }
+  }
+
 
   return (
     <div className="p-5 container" style={{ textAlign: 'center', color: 'darkslategrey', backgroundColor: 'bisque', marginTop: '30px', height: '45vh', width: '500px', borderRadius: '20px'}}>
@@ -80,5 +70,7 @@ const CreateNewUser = () => {
     </div>
   )
 }
+
+
 
 export default CreateNewUser

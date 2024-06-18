@@ -30,10 +30,13 @@ const CreateATrip = ({ setUpcomingTrips }) => {
     }
 
     const submitTrip = () => {
-        createTrip({ theNewTokenName: auth.accessToken , tripData: tripDetails })
+        createTrip({ theNewTokenName: auth, tripData: tripDetails })
             .then(() => {
                 console.log('Trip created successfully');
-                getTrips({ theNewTokenName: auth.accessToken })
+                window.alert('trip created successfully!')
+                
+                setTimeout(() => {
+                getTrips({ theNewTokenName: auth })
                     .then(response => {
                         console.log('Get Trips: ', response.data)
                         setUpcomingTrips(response.data);
@@ -41,6 +44,7 @@ const CreateATrip = ({ setUpcomingTrips }) => {
                     .catch(error => {
                         console.log('Error with trips here: ', error)
                     })
+                }, 500);
             })
             .catch(error => {
                 console.error('Error creating trip:', error);
