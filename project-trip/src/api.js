@@ -106,7 +106,28 @@ export const createTrip = ({ theNewTokenName, tripData }) => {
 }
 
 
-export const getTrips = ({ auth  }) => {
+// export const getTrips = ({ auth  }) => {
+//     console.log('here is get trips:', auth);
+//     if (!auth || !auth.accessToken) {
+//         console.error('Access token not found in auth:', auth);
+//         return Promise.reject('Access token not found');
+//     }
+   
+//     return axios({
+//         method: 'get',
+//         url: `${baseUrl}/get-trips/`,
+//         headers: {
+//             Authorization: `Bearer ${auth.accessToken}`,
+//         },
+//     })
+//     .then(response => {
+//         console.log('GET TRIPS RESPONSE: ', response);
+//         return response.data
+//     })
+//     .catch(error => console.log('ERROR: ', error));
+// };
+
+export const getTrips = ({ auth }) => {
     console.log('here is get trips:', auth);
     if (!auth || !auth.accessToken) {
         console.error('Access token not found in auth:', auth);
@@ -119,15 +140,16 @@ export const getTrips = ({ auth  }) => {
         headers: {
             Authorization: `Bearer ${auth.accessToken}`,
         },
+        params: {
+            createdBy: auth.user.id, // Filter trips by the authenticated user's ID
+        }
     })
     .then(response => {
         console.log('GET TRIPS RESPONSE: ', response);
         return response.data
     })
-    .catch(error => console.log('ERROR: ', error));
-};
-
-
+   
+}
 
 export const deleteMessage = ({ auth, id }) => {
     axios({
