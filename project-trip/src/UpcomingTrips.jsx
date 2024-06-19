@@ -12,10 +12,11 @@ const UpcomingTrips = () => {
     const [totalCount, setTotalCount] = useState({ 'Upcoming' : 0, Completed: 0 });
 
     useEffect(() => {
-        if (auth && auth.user && auth.user.username) {
+        if (auth) {
+            console.log('fetch the auth: ', auth.user)
         getTrips ({ auth }) 
         .then(trips => {
-            const userTrips = trips.filter(trip => trip.createdBy === auth.user.username);
+            const userTrips = trips.filter(trip => trip.createdBy === auth.createdBy);
             setUpcomingTrips(userTrips);
             const totalCount = {
                 Completed: userTrips.filter(trip => trip.completed).length,
@@ -30,24 +31,49 @@ const UpcomingTrips = () => {
     }, [auth]);
 
    
+    // const handleCheckboxChange = (tripId) => {
+    //     const updatedTrips = upcomingTrips.map(trip => {
+    //         if (trip.id === tripId) {
+    //             const updatedTrip = { ...trip, completed: !trip.completed };
+    //             // should pdate the trip status in the backend
+    //             updateTrip({ auth, id: tripId, data: { completed: updatedTrip.completed } })
+    //                 .then(response => {
+    //                     console.log('Trip updated:', response.data);
+    //                 })
+    //                 .catch(error => {
+    //                     console.error('Error updating trip:', error);
+    //                 });
+    //             return updatedTrip;
+    //         }
+    //         return trip;
+    //     });
+    //     setUpcomingTrips(updatedTrips);
+    // }
     const handleCheckboxChange = (tripId) => {
-        const updatedTrips = upcomingTrips.map(trip => {
-            if (trip.id === tripId) {
-                const updatedTrip = { ...trip, completed: !trip.completed };
-                // should pdate the trip status in the backend
-                updateTrip({ auth, id: tripId, data: { completed: updatedTrip.completed } })
-                    .then(response => {
-                        console.log('Trip updated:', response.data);
-                    })
-                    .catch(error => {
-                        console.error('Error updating trip:', error);
+        const tripToUpdate = upcomingTrips.find(trip => trip.id === tripId);
+        if (tripToUpdate) { //finds the trip and then checks if it is completed or not, true or false
+            const updatedTrip = { ...tripToUpdate, completed: !tripToUpdate.completed };
+    
+            updateTrip({ theNewTokenName: auth.token, id: tripId, tripData: { completed: updatedTrip.completed } })
+                .then(response => {
+                    console.log('Trip updated:', response.data);
+    
+                    // Only update after backend updates
+                    const updatedTrips = upcomingTrips.map(trip => {
+                        if (trip.id === tripId) {
+                            return { ...trip, completed: updatedTrip.completed };
+                        }
+                        return trip;
                     });
-                return updatedTrip;
-            }
-            return trip;
-        });
-        setUpcomingTrips(updatedTrips);
-    }
+    
+                    setUpcomingTrips(updatedTrips);
+                })
+                .catch(error => {
+                    console.error('Error updating trip:', error);
+                });
+        }
+    };
+    
     
     const handleAddFriend = (tripId) => {
         //find the trip
@@ -88,24 +114,24 @@ const UpcomingTrips = () => {
     };
 
 
-    const handleEdit = ( tripId, tripData) => {
-        const updatedTripData = {
-            name: tripData.tripName,
-            destination: tripData.destination,
-            start_date: tripData.start_date,
-            end_date: tripData.end_date
-        }
+    // const handleEdit = ( tripId, tripData) => {
+    //     const updatedTripData = {
+    //         name: tripData.tripName,
+    //         destination: tripData.destination,
+    //         start_date: tripData.start_date,
+    //         end_date: tripData.end_date
+    //     }
 
-        updateTrip ({ auth, id: tripId, data: updatedTripData })
+    //     updateTrip ({ auth, id: tripId, data: updatedTripData })
 
-        .then(response => {
-            setUpcomingTrips(prevTrips => prevTrips.map(trip => trip.id === tripId ? response.data : trip));
-            //  if the trip id equals the trip id, it will allow us to update the details 
-        })
-        .catch(error => {
-            console.error('Error updating trip:', error);
-        });
-    };
+    //     .then(response => {
+    //         setUpcomingTrips(prevTrips => prevTrips.map(trip => trip.id === tripId ? response.data : trip));
+    //         //  if the trip id equals the trip id, it will allow us to update the details 
+    //     })
+    //     .catch(error => {
+    //         console.error('Error updating trip:', error);
+    //     });
+    // };
 
 
     return (
@@ -135,7 +161,7 @@ const UpcomingTrips = () => {
                             onChange={(e) => setFriendUsername({ ...friendUsername, [tripData.id]: e.target.value})}
                         />
                         <button onClick={() => handleAddFriend(tripData.id)}>Add Friend</button>
-                        <button onClick={() => handleEdit(tripData.id)}>Edit</button>
+                        {/* <button onClick={() => handleEdit(tripData.id)}>Edit</button> */}
                         <button onClick={() => handleDelete(tripData.id)}>Delete</button>
                     </div>
                 ))}

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { AuthContext } from "./context";
@@ -15,11 +15,20 @@ const CreateATrip = ({ setUpcomingTrips }) => {
         startDate: '',
         endDate: '',
         // isCompleted: false,
-        createdBy: ''
+        // createdBy: ''
     })
 
     const { auth } = useContext( AuthContext)
     console.log(auth)
+
+    // useEffect(() => {
+    //     if (auth && auth.user) {
+    //         setTripDetails(prevDetails => ({
+    //             ...prevDetails,
+    //             createdBy: auth.user.name
+    //         }));
+    //     }
+    // }, [auth]);
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;

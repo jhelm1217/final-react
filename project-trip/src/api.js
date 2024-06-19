@@ -105,7 +105,11 @@ export const createTrip = ({ theNewTokenName, tripData }) => {
 
 
 export const getTrips = ({ auth  }) => {
-    // console.log('here is get trips:', auth);
+    console.log('here is get trips:', auth);
+    if (!auth || !auth.accessToken) {
+        console.error('Access token not found in auth:', auth);
+        return Promise.reject('Access token not found');
+    }
    
     return axios({
         method: 'get',
