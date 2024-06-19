@@ -5,19 +5,22 @@ const baseUrl = import.meta.env.VITE_baseUrl
 console.log('baseUrl')
 
 
-export const addFriend = ({ auth, tripId }) => {
+export const addFriend = ({ auth, tripId, username }) => {
     return axios({
         method: 'post',
         url: `${baseUrl}/add-friend/${tripId}/`,
         headers: {
             Authorization: `Bearer ${auth.accessToken}`,
         },
+        data: {
+            username: username
+        }
     })
     .then(response => {
         console.log('GET TRIPS RESPONSE: ', response);
         return response.data
     })
-    .catch(error => console.log('ERROR: ', error));
+    .catch(error =>  console.log('ERROR: ', error));
 };
 
 
@@ -79,7 +82,6 @@ export const createMessage = ({ auth, content, image=null }) => {
 
 
 export const createTrip = ({ theNewTokenName, tripData }) => {
-    console.log(theNewTokenName)
 
     return axios({
         method: 'post',
@@ -106,28 +108,7 @@ export const createTrip = ({ theNewTokenName, tripData }) => {
 }
 
 
-// export const getTrips = ({ auth  }) => {
-//     console.log('here is get trips:', auth);
-//     if (!auth || !auth.accessToken) {
-//         console.error('Access token not found in auth:', auth);
-//         return Promise.reject('Access token not found');
-//     }
-   
-//     return axios({
-//         method: 'get',
-//         url: `${baseUrl}/get-trips/`,
-//         headers: {
-//             Authorization: `Bearer ${auth.accessToken}`,
-//         },
-//     })
-//     .then(response => {
-//         console.log('GET TRIPS RESPONSE: ', response);
-//         return response.data
-//     })
-//     .catch(error => console.log('ERROR: ', error));
-// };
-
-export const getTrips = ({ auth }) => {
+export const getTrips = ({ auth  }) => {
     console.log('here is get trips:', auth);
     if (!auth || !auth.accessToken) {
         console.error('Access token not found in auth:', auth);
@@ -140,16 +121,15 @@ export const getTrips = ({ auth }) => {
         headers: {
             Authorization: `Bearer ${auth.accessToken}`,
         },
-        params: {
-            createdBy: auth.user.id, // Filter trips by the authenticated user's ID
-        }
     })
     .then(response => {
         console.log('GET TRIPS RESPONSE: ', response);
         return response.data
     })
-   
-}
+    .catch(error => console.log('ERROR: ', error));
+};
+
+
 
 export const deleteMessage = ({ auth, id }) => {
     axios({
@@ -279,7 +259,7 @@ export const getToken = ({ auth, username, password }) => {
 export const updateTrip = ({ theNewTokenName, id, tripData }) => {
     return axios ({
         method: 'put', 
-        url: `${baseUrl}/update-trip/${id}`,
+        url: `${baseUrl}/update-trip/${id}/`,
         headers: {
             Authorization: `Bearer ${theNewTokenName}`,
         },
@@ -289,4 +269,20 @@ export const updateTrip = ({ theNewTokenName, id, tripData }) => {
         console.log('UPDATE TRIP response: ', response);
     })
     .catch(error => console.log('ERRROR UPDATING: ', error))
+}
+
+export const getCompletedTrip = ({ theNewTokenName }) => {
+    return axios ({
+        method: 'get',
+        url: `${baseUrl}/get-completed-trips/`,
+        headers: {
+            Authorization: `Bearer ${theNewTokenName}`,
+        },
+    })
+    .then(response => {
+        return response.data; // Return the response data
+    })
+    .catch(error => {
+        console.error('Error fetching completed trips:', error.response ? error.response.data : error.message);
+    });
 }
