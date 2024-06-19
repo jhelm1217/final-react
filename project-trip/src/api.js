@@ -79,11 +79,12 @@ export const createMessage = ({ auth, content, image=null }) => {
 
 
 export const createTrip = ({ theNewTokenName, tripData }) => {
+
     return axios({
         method: 'post',
         url: `${baseUrl}/create-trip/`,
         headers: {
-            Authorization: `Bearer ${theNewTokenName}`,
+            Authorization: `Bearer ${theNewTokenName}` ,
         },
         data: {
             start_date: tripData.startDate,
