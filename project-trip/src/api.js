@@ -79,6 +79,7 @@ export const createMessage = ({ auth, content, image=null }) => {
 
 
 export const createTrip = ({ theNewTokenName, tripData }) => {
+    console.log(theNewTokenName)
 
     return axios({
         method: 'post',
