@@ -14,12 +14,10 @@ const CreateATrip = ({ setUpcomingTrips }) => {
         destination: '',
         startDate: '',
         endDate: '',
-        // isCompleted: false,
         createdBy: ''
     })
 
     const { auth } = useContext( AuthContext)
-    console.log(auth)
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -36,7 +34,7 @@ const CreateATrip = ({ setUpcomingTrips }) => {
                 window.alert('trip created successfully!')
                 
                 setTimeout(() => {
-                getTrips({ theNewTokenName: auth })
+                getTrips({ theNewTokenName: auth.accessToken })
                     .then(response => {
                         console.log('Get Trips: ', response.data)
                         setUpcomingTrips(response.data);
