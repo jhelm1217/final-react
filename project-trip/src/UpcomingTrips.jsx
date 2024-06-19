@@ -30,25 +30,6 @@ const UpcomingTrips = () => {
     }
     }, [auth]);
 
-   
-    // const handleCheckboxChange = (tripId) => {
-    //     const updatedTrips = upcomingTrips.map(trip => {
-    //         if (trip.id === tripId) {
-    //             const updatedTrip = { ...trip, completed: !trip.completed };
-    //             // should pdate the trip status in the backend
-    //             updateTrip({ auth, id: tripId, data: { completed: updatedTrip.completed } })
-    //                 .then(response => {
-    //                     console.log('Trip updated:', response.data);
-    //                 })
-    //                 .catch(error => {
-    //                     console.error('Error updating trip:', error);
-    //                 });
-    //             return updatedTrip;
-    //         }
-    //         return trip;
-    //     });
-    //     setUpcomingTrips(updatedTrips);
-    // }
     const handleCheckboxChange = (tripId) => {
         const tripToUpdate = upcomingTrips.find(trip => trip.id === tripId);
         if (tripToUpdate) { //finds the trip and then checks if it is completed or not, true or false
@@ -172,3 +153,25 @@ const UpcomingTrips = () => {
 
 export default UpcomingTrips
 
+
+
+
+   
+    // const handleCheckboxChange = (tripId) => {
+    //     const updatedTrips = upcomingTrips.map(trip => {
+    //         if (trip.id === tripId) {
+    //             const updatedTrip = { ...trip, completed: !trip.completed };
+    //             // should pdate the trip status in the backend
+    //             updateTrip({ auth, id: tripId, data: { completed: updatedTrip.completed } })
+    //                 .then(response => {
+    //                     console.log('Trip updated:', response.data);
+    //                 })
+    //                 .catch(error => {
+    //                     console.error('Error updating trip:', error);
+    //                 });
+    //             return updatedTrip;
+    //         }
+    //         return trip;
+    //     });
+    //     setUpcomingTrips(updatedTrips);
+    // }

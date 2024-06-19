@@ -15,20 +15,11 @@ const CreateATrip = ({ setUpcomingTrips }) => {
         startDate: '',
         endDate: '',
         // isCompleted: false,
-        // createdBy: ''
+        createdBy: ''
     })
 
     const { auth } = useContext( AuthContext)
     console.log(auth)
-
-    // useEffect(() => {
-    //     if (auth && auth.user) {
-    //         setTripDetails(prevDetails => ({
-    //             ...prevDetails,
-    //             createdBy: auth.user.name
-    //         }));
-    //     }
-    // }, [auth]);
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -140,3 +131,14 @@ const CreateATrip = ({ setUpcomingTrips }) => {
 };
 
 export default CreateATrip;
+
+
+
+   // useEffect(() => {
+    //     if (auth && auth.user) {
+    //         setTripDetails(prevDetails => ({
+    //             ...prevDetails,
+    //             createdBy: auth.user.name
+    //         }));
+    //     }
+    // }, [auth]);
