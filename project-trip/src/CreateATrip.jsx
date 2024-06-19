@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { AuthContext } from "./context";
@@ -131,14 +131,3 @@ const CreateATrip = ({ setUpcomingTrips }) => {
 };
 
 export default CreateATrip;
-
-
-
-   // useEffect(() => {
-    //     if (auth && auth.user) {
-    //         setTripDetails(prevDetails => ({
-    //             ...prevDetails,
-    //             createdBy: auth.user.name
-    //         }));
-    //     }
-    // }, [auth]);
