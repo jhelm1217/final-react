@@ -29,7 +29,7 @@ const CreateATrip = ({ setUpcomingTrips }) => {
 
     const submitTrip = () => {
    
-        createTrip({ theNewTokenName: auth, tripData: tripDetails })
+        createTrip({ theNewTokenName: auth.accessToken, tripData: tripDetails })
             .then(() => {
                 console.log('Trip created successfully');
                 // window.alert('trip created successfully!')

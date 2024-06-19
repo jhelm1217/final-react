@@ -7,6 +7,7 @@ import { AuthContext } from "./context";
 
 const UpcomingTrips = () => {
     const [upcomingTrips, setUpcomingTrips] = useState([]);
+    const [completedTrips, setCompletedTrips] = useState([]);
     const { auth } = useContext(AuthContext)
     const [friendUsername, setFriendUsername] = useState('');
     const [totalCount, setTotalCount] = useState({ 'Upcoming' : 0, Completed: 0 });
@@ -17,7 +18,12 @@ const UpcomingTrips = () => {
         getTrips ({ auth }) 
         .then(trips => {
             const userTrips = trips.filter(trip => trip.createdBy === auth.createdBy);
-            setUpcomingTrips(userTrips);
+            const upcoming = userTrips.filter(trip => !trip.completed);
+            const completed = userTrips.filter(trip => trip.completed);
+
+            setUpcomingTrips(upcoming);
+            setCompletedTrips(completed);
+
             const totalCount = {
                 Completed: userTrips.filter(trip => trip.completed).length,
                 'Upcoming': userTrips.filter(trip => !trip.completed).length
@@ -40,21 +46,21 @@ const UpcomingTrips = () => {
                     console.log('Trip updated:', response.data);
     
                     // Only update after backend updates
-                    const updatedTrips = upcomingTrips.map(trip => {
-                        if (trip.id === tripId) {
-                            return { ...trip, completed: updatedTrip.completed };
-                        }
-                        return trip;
-                    });
-    
-                    setUpcomingTrips(updatedTrips);
+                    if (updatedTrip.completed) {
+                        setUpcomingTrips(prev => prevTrips.filter(trip => trip.id !== tripId));
+                        setCompletedTrips(prevTrips => [...prevTrips, updatedTrip]);
+                    } else {
+                        // Move from completed to upcoming
+                        setCompletedTrips(prevTrips => prevTrips.filter(trip => trip.id !== tripId));
+                        setUpcomingTrips(prevTrips => [...prevTrips, updatedTrip]);
+                    }
                 })
                 .catch(error => {
                     console.error('Error updating trip:', error);
                 });
         }
     };
-    
+       
     
     const handleAddFriend = (tripId) => {
         //find the trip
@@ -175,3 +181,21 @@ export default UpcomingTrips
     //     });
     //     setUpcomingTrips(updatedTrips);
     // }
+
+
+
+// }
+// const updatedTrips = upcomingTrips.map(trip => {
+//     if (trip.id === tripId) {
+//         return { ...trip, completed: updatedTrip.completed };
+//     }
+//     return trip;
+// });
+
+// setUpcomingTrips(updatedTrips);
+// })
+// .catch(error => {
+// console.error('Error updating trip:', error);
+// });
+// }
+// };
