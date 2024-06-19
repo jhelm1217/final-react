@@ -23,18 +23,12 @@ const CreateATrip = ({ setUpcomingTrips }) => {
         const { name, value, type, checked } = e.target;
         setTripDetails({
             ...tripDetails,
-            [name]: value
-            // [name]: type === 'checkbox' ? checked : value
+            [name]: type === 'checkbox' ? checked : value
         });
     }
 
     const submitTrip = () => {
-        console.log('Auth: ', auth) // 
-        if (!auth || !auth.accessToken) {
-            console.error('Access token not found');
-            return;
-        }
-
+   
         createTrip({ theNewTokenName: auth, tripData: tripDetails })
             .then(() => {
                 console.log('Trip created successfully');
