@@ -90,8 +90,19 @@ const UpcomingTrips = () => {
                     const upcoming = userTrips.filter(trip => !trip.completed);
                     const completed = userTrips.filter(trip => trip.completed);
 
-                    setUpcomingTrips(upcoming);
-                    setCompletedTrips(completed);
+
+                    // Sort upcoming trips by start date
+                    const sortedUpcoming = upcoming.sort((a, b) => new Date(a.start_date) - new Date(b.start_date));
+
+                    setCompletedTrips(userTrips.filter(trip => trip.completed));
+                    setUpcomingTrips(sortedUpcoming);
+                    
+                    // // Sort upcoming trips by end date
+                    // const sortedUpcoming = upcoming.sort((a, b) => new Date(a.end_date) - new Date(b.end_date));
+
+                    // setUpcomingTrips(sortedUpcoming);
+                    // setUpcomingTrips(upcoming);
+                    // setCompletedTrips(completed);
 
                     const totalCount = {
                         Completed: userTrips.filter(trip => trip.completed).length,

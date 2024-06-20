@@ -115,7 +115,8 @@ export const getTrips = ({ auth  }) => {
         console.error('Access token not found in auth:', auth);
         return Promise.reject('Access token not found');
     }
-   
+    const userId = auth.user_id
+    
     return axios({
         method: 'get',
         url: `${baseUrl}/get-trips/`,

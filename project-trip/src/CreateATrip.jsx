@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from "./context";
 import { createTrip } from './api'
 import { getTrips } from './api';
@@ -18,6 +18,7 @@ const CreateATrip = ({ setUpcomingTrips }) => {
     })
 
     const { auth } = useContext( AuthContext)
+    const navigate = useNavigate()
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -33,18 +34,19 @@ const CreateATrip = ({ setUpcomingTrips }) => {
         createTrip({ theNewTokenName: auth.accessToken, tripData: tripDetails })
             .then(() => {
                 console.log('Trip created successfully');
-                // window.alert('trip created successfully!')
+                window.alert('trip created successfully!')
                 
                 setTimeout(() => {
                 getTrips({ theNewTokenName: auth.accessToken })
                     .then(response => {
                         console.log('Get Trips: ', response.data)
                         setUpcomingTrips(response.data);
+                        navigate('/upcoming-trips'); //navigating to view upcoming trips after creation
                     })
                     .catch(error => {
                         console.log('Error with trips here: ', error)
                     })
-                }, 500);
+                }, 700);
             })
             .catch(error => {
                 console.error('Error creating trip:', error);
