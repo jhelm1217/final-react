@@ -14,7 +14,7 @@ const CreateATrip = ({ setUpcomingTrips }) => {
         destination: '',
         startDate: '',
         endDate: '',
-        createdBy: ''
+        // createdBy: ''
     })
 
     const { auth } = useContext( AuthContext)
@@ -28,6 +28,7 @@ const CreateATrip = ({ setUpcomingTrips }) => {
     }
 
     const submitTrip = () => {
+        const tripData = { ...tripDetails, createdBy: auth };
    
         createTrip({ theNewTokenName: auth.accessToken, tripData: tripDetails })
             .then(() => {
@@ -114,13 +115,13 @@ const CreateATrip = ({ setUpcomingTrips }) => {
             />
             </label> */}
             <br />
-            <input
+            {/* <input
                 type='text'
                 name='createdBy'
                 placeholder='CreatedBy'
                 value={tripDetails.createdBy}
                 onChange={handleInputChange}
-            />
+            /> */}
 
             <button onClick={submitTrip}>Create Trip</button>
         </div>
