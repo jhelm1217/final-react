@@ -1,48 +1,6 @@
+import React, { useState, useEffect } from 'react'
+import './App.css' 
 
-// const CountdownTimer = ({ endDate }) => {
-//     const calculateTimeLeft = () => {
-//         const difference = +new Date(endDate) - +new Date();
-//         let timeLeft = {};
-
-//         if (difference > 0) {
-//             timeLeft = {
-//                 days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-//                 hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-//                 minutes: Math.floor((difference / 1000 / 60) % 60),
-//                 seconds: Math.floor((difference / 1000) % 60),
-//             };
-//         }
-
-//         return timeLeft;
-//     };
-
-//     const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
-//     useEffect(() => {
-//         const timer = setTimeout(() => {
-//             setTimeLeft(calculateTimeLeft());
-//         }, 1000);
-
-//         return () => clearTimeout(timer);
-//     });
-
-//     return (
-//         <div>
-//             {timeLeft.days > 0 && (
-//                 <p>{timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s left</p>
-//             )}
-//             {timeLeft.days === 0 && timeLeft.hours > 0 && (
-//                 <p>{timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s left</p>
-//             )}
-//             {timeLeft.days === 0 && timeLeft.hours === 0 && (
-//                 <p>{timeLeft.minutes}m {timeLeft.seconds}s left</p>
-//             )}
-//             {timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && (
-//                 <p>{timeLeft.seconds}s left</p>
-//             )}
-//         </div>
-//     );
-// };
 
 const CountdownTimer = ({ endDate }) => {
     const calculateTimeLeft = () => {
@@ -86,8 +44,8 @@ const CountdownTimer = ({ endDate }) => {
     });
   
     return (
-      <div>
-        {timerComponents.length ? timerComponents : <span>Time's up!</span>}
+      <div className="countdown-timer">
+        {timerComponents.length ? timerComponents : <span className="times-up">Time's up!</span>}
       </div>
     );
   };

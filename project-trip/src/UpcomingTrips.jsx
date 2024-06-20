@@ -1,11 +1,18 @@
+//The meat and potatoes of the project! yay
+
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { getTrips, deleteTrip, updateTrip, addFriend } from './api'
 import { AuthContext } from "./context";
 
+//this is to have my dates formatted in the order month, day, year
+const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
-
+  //my logic for my timer 
 const CountdownTimer = ({ endDate }) => {
     const calculateTimeLeft = () => {
       const difference = +new Date(endDate) - +new Date();
@@ -48,13 +55,25 @@ const CountdownTimer = ({ endDate }) => {
     });
   
     return (
-      <div>
-        {timerComponents.length ? timerComponents : <span>Time's up!</span>}
-      </div>
+        <div className="countdown-timer">
+        <div className="time-values">
+            <span>{String(timeLeft.days).padStart(2, '0')}</span>:
+            <span>{String(timeLeft.hours).padStart(2, '0')}</span>:
+            <span>{String(timeLeft.minutes).padStart(2, '0')}</span>:
+            <span>{String(timeLeft.seconds).padStart(2, '0')}</span>
+        </div>
+        <div className="time-labels">
+            <span>Days</span>
+            <span>Hours</span>
+            <span>Minutes</span>
+            <span>Seconds</span>
+        </div>
+        </div>
     );
-  };
+    };
+
   
-  
+  //logic for my upcoming trips, here we go!
 const UpcomingTrips = () => {
     const [upcomingTrips, setUpcomingTrips] = useState([]);
     const [completedTrips, setCompletedTrips] = useState([]);
@@ -86,7 +105,7 @@ const UpcomingTrips = () => {
         }
     }, [auth]);
        
-
+// checking the box to update the trip to being completed!
     const handleCheckboxChange = (tripId) => {
         const tripToUpdate = upcomingTrips.find(trip => trip.id === tripId);
         if (tripToUpdate) {
@@ -109,35 +128,8 @@ const UpcomingTrips = () => {
         }
     };
     
-    
-    // const handleAddFriend = (tripId) => {
-    //     //find the trip
-    //     const index = upcomingTrips.findIndex(trip => trip.id === tripId);
-    //     if (index === -1) {
-    //         console.error('trip not found');
-    //         return;
-    //     }
-    //     //make a copy of the trip to update
-    //     const updatedTrip = { ...upcomingTrips[index] };
-
-    //     //add my friends username to the trip 
-    //     updatedTrip.friends.push(friendUsername[tripId]);
-
-    //     //update that trip in the list
-    //     const updatedTrips = [...upcomingTrips];
-    //     updatedTrips[index] = updatedTrip;
-    //     setUpcomingTrips(updatedTrips);
-
-    //     addFriend({ auth, tripId, username: friendUsername[tripId] })
-    //         .then(response => {
-    //             console.log('friend added to trip: ', response);
-    //         })
-    //         .catch(error => {
-    //             console.error('error with your friens: ', error)
-    //             setUpcomingTrips(upcomingTrips)
-    //         })
-    // }
-
+// logic for adding a friend to the trip. 
+//still having issues with having the trip to display onto the friends page after being added to the trip 
     const handleAddFriend = (tripId) => {
         const tripToUpdate = upcomingTrips.find(trip => trip.id === tripId);
         if (!tripToUpdate) {
@@ -158,8 +150,7 @@ const UpcomingTrips = () => {
             });
     };
 
-
-
+//logic for deleting a trip!
     const handleDelete = (tripId) => {
         deleteTrip({ auth, id: tripId })
             .then(response => {
@@ -171,26 +162,6 @@ const UpcomingTrips = () => {
     };
 
 
-    // const handleEdit = ( tripId, tripData) => {
-    //     const updatedTripData = {
-    //         name: tripData.tripName,
-    //         destination: tripData.destination,
-    //         start_date: tripData.start_date,
-    //         end_date: tripData.end_date
-    //     }
-
-    //     updateTrip ({ auth, id: tripId, data: updatedTripData })
-
-    //     .then(response => {
-    //         setUpcomingTrips(prevTrips => prevTrips.map(trip => trip.id === tripId ? response.data : trip));
-    //         //  if the trip id equals the trip id, it will allow us to update the details 
-    //     })
-    //     .catch(error => {
-    //         console.error('Error updating trip:', error);
-    //     });
-    // };
-
-
     return (
         <div className="upcoming-trips-container">
             <Link to="/dashboard" className="back-to-dashboard">Back to Dashboard</Link>
@@ -199,10 +170,11 @@ const UpcomingTrips = () => {
             <div className="trip-list">
                 {upcomingTrips.map(tripData => (
                     tripData && (
-                    <div key={tripData.id} className="trip-card">
+                        <div key={tripData.id} className="trip-card">
+                            <CountdownTimer endDate={tripData.end_date} />
                         <h3>{tripData.name}</h3>
                         <p>Destination: {tripData.destination}</p>
-                        <p>Dates: {tripData.start_date} to {tripData.end_date}</p>
+                        <p>Dates: {formatDate(tripData.start_date)} to {formatDate(tripData.end_date)}</p>
                         <label>
                             Completed:
                             <input
@@ -211,7 +183,6 @@ const UpcomingTrips = () => {
                                 onChange={() => handleCheckboxChange(tripData.id)}
                             />
                         </label>
-                        <CountdownTimer endDate={tripData.end_date} />
                         <input
                             className='text-muted'
                             type="text"
