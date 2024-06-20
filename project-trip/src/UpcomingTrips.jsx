@@ -60,33 +60,55 @@ const UpcomingTrips = () => {
     };
     
     
+    // const handleAddFriend = (tripId) => {
+    //     //find the trip
+    //     const index = upcomingTrips.findIndex(trip => trip.id === tripId);
+    //     if (index === -1) {
+    //         console.error('trip not found');
+    //         return;
+    //     }
+    //     //make a copy of the trip to update
+    //     const updatedTrip = { ...upcomingTrips[index] };
+
+    //     //add my friends username to the trip 
+    //     updatedTrip.friends.push(friendUsername[tripId]);
+
+    //     //update that trip in the list
+    //     const updatedTrips = [...upcomingTrips];
+    //     updatedTrips[index] = updatedTrip;
+    //     setUpcomingTrips(updatedTrips);
+
+    //     addFriend({ auth, tripId, username: friendUsername[tripId] })
+    //         .then(response => {
+    //             console.log('friend added to trip: ', response);
+    //         })
+    //         .catch(error => {
+    //             console.error('error with your friens: ', error)
+    //             setUpcomingTrips(upcomingTrips)
+    //         })
+    // }
+
     const handleAddFriend = (tripId) => {
-        //find the trip
-        const index = upcomingTrips.findIndex(trip => trip.id === tripId);
-        if (index === -1) {
-            console.error('trip not found');
+        const tripToUpdate = upcomingTrips.find(trip => trip.id === tripId);
+        if (!tripToUpdate) {
+            console.error('Trip not found');
             return;
         }
-        //make a copy of the trip to update
-        const updatedTrip = { ...upcomingTrips[index] };
 
-        //add my friends username to the trip 
-        updatedTrip.friends.push(friendUsername[tripId]);
-
-        //update that trip in the list
-        const updatedTrips = [...upcomingTrips];
-        updatedTrips[index] = updatedTrip;
-        setUpcomingTrips(updatedTrips);
+        const updatedTrip = { ...tripToUpdate, friends: [...tripToUpdate.friends, friendUsername[tripId]] };
 
         addFriend({ auth, tripId, username: friendUsername[tripId] })
             .then(response => {
-                console.log('friend added to trip: ', response);
+                console.log('Friend added to trip:', response);
+                setUpcomingTrips(prevTrips => prevTrips.map(trip => trip.id === tripId ? updatedTrip : trip));
+                setFriendUsername('');
             })
             .catch(error => {
-                console.error('error with your friens: ', error)
-                setUpcomingTrips(upcomingTrips)
-            })
-    }
+                console.error('Error adding friend:', error);
+            });
+    };
+
+
 
     const handleDelete = (tripId) => {
         deleteTrip({ auth, id: tripId })
@@ -148,6 +170,12 @@ const UpcomingTrips = () => {
                         />
                         <button onClick={() => handleAddFriend(tripData.id)}>Add Friend</button>
                         <button onClick={() => handleDelete(tripData.id)}>Delete</button>
+                        <ul>
+                            <h6>Friends added to the trip!</h6>
+                            {tripData.friends.map((friend, index) => (
+                                <li key={index}>{friend}</li>
+                            ))}
+                        </ul>
                     </div>
                 )))}
             </div>
