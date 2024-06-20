@@ -25,6 +25,7 @@ export const addFriend = ({ auth, tripId, username }) => {
 
 
 
+
 export const createUser = ({ username, password, firstName, lastName }) => {
     return axios ({
         method: 'post', 
