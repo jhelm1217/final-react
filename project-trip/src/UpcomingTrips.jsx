@@ -13,7 +13,7 @@ const formatDate = (dateString) => {
   };
 
   //my logic for my timer 
-const CountdownTimer = ({ endDate }) => {
+const CountdownTimer = ({ endDate, onComplete }) => {
     const calculateTimeLeft = () => {
       const difference = +new Date(endDate) - +new Date();
       let timeLeft = {};
@@ -24,6 +24,17 @@ const CountdownTimer = ({ endDate }) => {
           hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
           minutes: Math.floor((difference / 1000 / 60) % 60),
           seconds: Math.floor((difference / 1000) % 60),
+        };
+      } else {
+        if (onComplete) {
+            onComplete();
+        }
+        timeLeft = {
+            days: 0, 
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+
         };
       }
   
@@ -115,6 +126,22 @@ const UpcomingTrips = () => {
             });
         }
     }, [auth]);
+
+    // completeion function when the timer gets to 0 0 0 0 
+    const markTripAsCompleted = (tripId) => {
+        const tripToUpdate = upcomingTrips.find(trip => trip.id === tripId);
+        if (tripToUpdate) {
+            const updatedTrip = { ...tripToUpdate, completed: true };
+            updateTrip({ theNewTokenName: auth.accessToken, id: tripId, tripData:{ completed: true} })
+                .then(response => {
+                    setUpcomingTrips(prev => prev.filter(trip => trip.id !== tripId));
+                    setCompletedTrips(prev => [...prev, updatedTrip]);
+                })
+                .catch(error => {
+                    console.error('Error with marking as completed: ', error)
+                });
+        }
+    }
        
 // checking the box to update the trip to being completed!
     const handleCheckboxChange = (tripId) => {
@@ -182,18 +209,12 @@ const UpcomingTrips = () => {
                 {upcomingTrips.map(tripData => (
                     tripData && (
                         <div key={tripData.id} className="trip-card">
-                            <CountdownTimer endDate={tripData.end_date} />
+                            <CountdownTimer endDate={tripData.start_date} onComplete={() => markTripAsCompleted(tripData.id)} />
                         <h3>{tripData.name}</h3>
+                        <p>Created by: {tripData.createdBy}</p> 
                         <p>Destination: {tripData.destination}</p>
                         <p>Dates: {formatDate(tripData.start_date)} to {formatDate(tripData.end_date)}</p>
-                        <label>
-                            Completed:
-                            <input
-                                type="checkbox"
-                                checked={tripData.completed}
-                                onChange={() => handleCheckboxChange(tripData.id)}
-                            />
-                        </label>
+                       
                         <input
                             className='text-muted'
                             type="text"
