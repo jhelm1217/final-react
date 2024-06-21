@@ -214,7 +214,14 @@ const UpcomingTrips = () => {
                         <p>Created by: {tripData.createdBy}</p> 
                         <p>Destination: {tripData.destination}</p>
                         <p>Dates: {formatDate(tripData.start_date)} to {formatDate(tripData.end_date)}</p>
-                       
+                        {/* <label>
+                            Completed:
+                            <input
+                                type="checkbox"
+                                checked={tripData.completed}
+                                onChange={() => handleCheckboxChange(tripData.id)}
+                            />
+                        </label> */}
                         <input
                             className='text-muted'
                             type="text"
