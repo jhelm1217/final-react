@@ -5,11 +5,14 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { getTrips, deleteTrip, updateTrip, addFriend } from './api'
 import { AuthContext } from "./context";
+import { format } from 'date-fns'
 
 //this is to have my dates formatted in the order month, day, year
+// const formattedDate = format(newDate(), 'MM-dd-yyyy')
 const formatDate = (dateString) => {
     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    // return new Date(dateString).toLocaleDateString(undefined, options);
+    return format(new Date(dateString), 'MM-dd-yyyy')
   };
 
   //my logic for my timer 
@@ -89,7 +92,7 @@ const UpcomingTrips = () => {
     const [upcomingTrips, setUpcomingTrips] = useState([]);
     const [completedTrips, setCompletedTrips] = useState([]);
     const { auth } = useContext(AuthContext)
-    const [friendUsername, setFriendUsername] = useState('');
+    const [friendUsername, setFriendUsername] = useState({});
     const [totalCount, setTotalCount] = useState({ 'Upcoming' : 0, Completed: 0 });
 
     useEffect(() => {
@@ -144,49 +147,76 @@ const UpcomingTrips = () => {
     }
        
 // checking the box to update the trip to being completed!
-    const handleCheckboxChange = (tripId) => {
-        const tripToUpdate = upcomingTrips.find(trip => trip.id === tripId);
-        if (tripToUpdate) {
-            const updatedTrip = { ...tripToUpdate, completed: !tripToUpdate.completed };
+    // const handleCheckboxChange = (tripId) => {
+    //     const tripToUpdate = upcomingTrips.find(trip => trip.id === tripId);
+    //     if (tripToUpdate) {
+    //         const updatedTrip = { ...tripToUpdate, completed: !tripToUpdate.completed };
     
-            updateTrip({ theNewTokenName: auth.accessToken, id: tripId, tripData: { completed: updatedTrip.completed } })
-                .then(response => {
-                    console.log('Trip updated:', response.data);
-                    if (updatedTrip.completed) {
-                        setUpcomingTrips(prev => prev.filter(trip => trip.id !== tripId));
-                        setCompletedTrips(prev => [...prev, updatedTrip]);
-                    } else {
-                        setCompletedTrips(prev => prev.filter(trip => trip.id !== tripId));
-                        setUpcomingTrips(prev => [...prev, updatedTrip]);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error updating trip:', error);
-                });
-        }
-    };
+    //         updateTrip({ theNewTokenName: auth.accessToken, id: tripId, tripData: { completed: updatedTrip.completed } })
+    //             .then(response => {
+    //                 console.log('Trip updated:', response.data);
+    //                 if (updatedTrip.completed) {
+    //                     setUpcomingTrips(prev => prev.filter(trip => trip.id !== tripId));
+    //                     setCompletedTrips(prev => [...prev, updatedTrip]);
+    //                 } else {
+    //                     setCompletedTrips(prev => prev.filter(trip => trip.id !== tripId));
+    //                     setUpcomingTrips(prev => [...prev, updatedTrip]);
+    //                 }
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error updating trip:', error);
+    //             });
+    //     }
+    // };
     
 // logic for adding a friend to the trip. 
 //still having issues with having the trip to display onto the friends page after being added to the trip 
+    // const handleAddFriend = (tripId) => {
+    //     const tripToUpdate = upcomingTrips.find(trip => trip.id === tripId);
+    //     if (!tripToUpdate) {
+    //         console.error('Trip not found');
+    //         return;
+    //     }
+
+    //     const updatedTrip = { ...tripToUpdate, friends: [...tripToUpdate.friends, friendUsername[tripId]] };
+
+    //     addFriend({ auth, tripId, username: friendUsername[tripId] })
+    //         .then(response => {
+    //             console.log('Friend added to trip:', response);
+    //             setUpcomingTrips(prevTrips => prevTrips.map(trip => trip.id === tripId ? updatedTrip : trip));
+    //             // setFriendUsername('');
+    //             setFriendUsername(prev => ({ ...prev, [tripId]: ''}))
+    //         })
+    //         .catch(error => {
+    //             console.error('Error adding friend:', error);
+    //         });
+    // };
     const handleAddFriend = (tripId) => {
         const tripToUpdate = upcomingTrips.find(trip => trip.id === tripId);
         if (!tripToUpdate) {
             console.error('Trip not found');
             return;
         }
-
-        const updatedTrip = { ...tripToUpdate, friends: [...tripToUpdate.friends, friendUsername[tripId]] };
-
-        addFriend({ auth, tripId, username: friendUsername[tripId] })
+    
+        const newUsername = friendUsername[tripId];
+        if (!newUsername) {
+            console.error('Username is empty');
+            return;
+        }
+    
+        const updatedTrip = { ...tripToUpdate, friends: [...tripToUpdate.friends, newUsername] };
+    
+        addFriend({ auth, tripId, username: newUsername })
             .then(response => {
                 console.log('Friend added to trip:', response);
                 setUpcomingTrips(prevTrips => prevTrips.map(trip => trip.id === tripId ? updatedTrip : trip));
-                setFriendUsername('');
+                setFriendUsername(prev => ({ ...prev, [tripId]: '' }));
             })
             .catch(error => {
                 console.error('Error adding friend:', error);
             });
     };
+    
 
 //logic for deleting a trip!
     const handleDelete = (tripId) => {
@@ -227,15 +257,20 @@ const UpcomingTrips = () => {
                             type="text"
                             placeholder="Add Friend's Username"
                             value={friendUsername[tripData.id] || ''}
-                            onChange={(e) => setFriendUsername({ ...friendUsername, [tripData.id]: e.target.value})}
+                            // onChange={(e) => setFriendUsername({ ...friendUsername, [tripData.id]: e.target.value })}
+                            onChange={(e) => setFriendUsername({ ...friendUsername, [tripData.id]: e.target.value })}
+
                         />
                         <button onClick={() => handleAddFriend(tripData.id)}>Add Friend</button>
                         <button onClick={() => handleDelete(tripData.id)}>Delete</button>
+                            <h6 style={{ textAlign: 'center'}}>Friends Added!</h6>
                         <ul>
-                            <h6>Friends added to the trip!</h6>
-                            {tripData.friends.map((friend, index) => (
+                            {/* {tripData.friends.map((friendUsername, index) => (
+                                <li key={index}>{friendUsername}</li>
+                            ))} */}
+                             {tripData.friends.map((friend, index) => (
                                 <li key={index}>{friend}</li>
-                            ))}
+                             ))}
                         </ul>
                     </div>
                 )))}

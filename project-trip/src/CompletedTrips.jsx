@@ -33,7 +33,7 @@ const CompletedTrip = () => {
         <div className='upcoming-trips-container'>
             <Link to="/dashboard" className="back-to-dashboard"> Back to Dashboard</Link>
             <br />
-            <h2> Completed Trips!</h2>
+            <h2 style={{ color: 'beige', textAlign: 'center'}}> Completed Trips!</h2>
             <div className='trip-list'>
             {/* <ul>
                 {completedTrips.map(trip => (

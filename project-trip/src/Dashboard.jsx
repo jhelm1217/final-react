@@ -7,6 +7,7 @@ const Dashboard = () => {
     const handleLogout = () => {
         // Implement logout logic here, clearing the token from localStorage
         localStorage.removeItem('token');
+        localStorage.removeItem('username')
         navigate('/');
     }
 
